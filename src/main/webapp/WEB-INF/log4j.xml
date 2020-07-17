@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration debug="false" xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<!-- to minimize log file output, set value = "ERROR" vs. "DEBUG" -->
+		<param name="Threshold" value="DEBUG"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%t %X] %p %c{1} %x - %m%n"/>
+		</layout>
+	</appender>
+	<appender name="log" class="org.apache.log4j.RollingFileAppender">
+		<!-- to minimize log file output, set value = "ERROR" vs. "DEBUG" -->
+		<param name="Threshold" value="DEBUG"/>
+		<param name="File" value="${catalina.home}/logs/tm.log"/>
+		<param name="MaxFileSize" value="10000KB"/>
+		<param name="MaxBackupIndex" value="50"/>
+		<layout class="org.apache.log4j.PatternLayout">
+						<param name="ConversionPattern" value="%d [%.25t %X] %p %c{1} %x - %m%n"/>
+		</layout>
+	</appender>
+	<logger name="com.taramala">
+		<level value="debug"/>
+	</logger>
+	<logger name="org.hibernate.SQL">
+		<level value="debug"/>
+	</logger>
+	<logger name="org.hibernate.type">
+		<level value="trace"/>
+	</logger>
+	<logger name="org.springframework.jdbc.core.JdbcTemplate">
+		<level value="debug"/>
+	</logger>
+	<logger name="org.springframework.jdbc.core.simple">
+		<level value="debug"/>
+	</logger>
+	<!-- do not comment out -->
+	<root>
+		<level value="error"/>
+		<appender-ref ref="log"/>
+		<appender-ref ref="stdout"/>
+	</root>
+</log4j:configuration>
