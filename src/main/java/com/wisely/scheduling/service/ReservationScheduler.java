@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -45,6 +46,17 @@ public class ReservationScheduler {
 	}
 	
 	/**
+	 * Used for troubleshooting
+	 * @return
+	 * @throws WiException 
+	 */
+	public WiAvailability getAvailability(WiRestaurant restaurant) throws WiException {
+		
+		WiAvailability availability = availabilityDao.getAvailability(restaurant);
+		return availability;
+	}
+	
+	/**
 	 * For a given restaurant and date find the current available times.
 	 * 
 	 * @param restaurant
@@ -59,7 +71,9 @@ public class ReservationScheduler {
 		// translate start time into zoned datetime for given date
 		LocalTime lt = LocalTime.of(availability.getStartHour(), availability.getStartMinute());
 		
-		ZonedDateTime time = ZonedDateTime.of(date, lt, ZoneId.of(restaurant.getTz()));
+		ZoneId restTz = ZoneId.of(availability.getRestaurant().getTz());
+		ZonedDateTime time = ZonedDateTime.of(date, lt, ZoneId.of("UTC")).withZoneSameInstant(restTz);
+		
 		
 		// find out what the usage is currently
 		List<Integer> usedCapacity = reservationDao.getUsedCapacity(restaurant, date, availability.getSlots().size());
@@ -71,12 +85,16 @@ public class ReservationScheduler {
 			
 			if (slot.getCapacity() > usedCapacity.get(slot.getIndex())) {
 				// there is room for another reservation
-				ZonedDateTime resTime = time.plusMinutes(slot.getIndex()*15);
+				int addMinutes = slot.getIndex()*15;
+				ZonedDateTime resTime = time.plusMinutes(addMinutes);
 				daysAvailabilty.add(resTime);
 			}
-			
-			time = time.plusMinutes(15);
 		}
+		
+		// sort the list
+//		daysAvailabilty = daysAvailabilty.stream()
+//				.sorted((o1, o2)-> o1.compareTo(o2))
+//                .collect(Collectors.toList());
 		
 		return daysAvailabilty;
 	}

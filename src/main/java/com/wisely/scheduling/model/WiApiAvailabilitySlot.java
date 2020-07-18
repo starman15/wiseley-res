@@ -2,6 +2,8 @@ package com.wisely.scheduling.model;
 
 import java.time.ZonedDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * REST interface using ISO 8601 datetime data to make it more convenient to clients.
  * 
@@ -32,6 +34,7 @@ public class WiApiAvailabilitySlot {
 		this.startTime = startTime;
 	}
 
+	@JsonIgnore
 	public WiApiAvailability getOwner() {
 		return owner;
 	}

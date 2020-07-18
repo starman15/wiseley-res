@@ -27,13 +27,13 @@ public class AvailabilityDao implements InitializingBean {
 	}
 	
 	public void saveAvailability(WiAvailability a) {
-		store.put(a.getRestaurant().getName(), a);
+		store.put(a.getRestaurant().getName().toLowerCase(), a);
 	}
 	
 	public WiAvailability getAvailability(WiRestaurant r) throws WiException {
 		WiAvailability a = null;
-		if (store.containsKey(r.getName())) {
-			a = store.get(r.getName());
+		if (store.containsKey(r.getName().toLowerCase())) {
+			a = store.get(r.getName().toLowerCase());
 		}
 		if (a==null) {
 			throw new WiException("No availability configured");

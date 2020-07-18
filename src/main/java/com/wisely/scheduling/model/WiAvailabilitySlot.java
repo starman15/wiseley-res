@@ -1,5 +1,7 @@
 package com.wisely.scheduling.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class WiAvailabilitySlot {
 	
 	private WiAvailability owner;
@@ -14,6 +16,7 @@ public class WiAvailabilitySlot {
 		this.capacity = cap;
 	}
 
+	@JsonIgnore
 	public WiAvailability getOwner() {
 		return owner;
 	}

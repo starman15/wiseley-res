@@ -55,7 +55,7 @@ public class WiAvailability {
 			ZonedDateTime slotEndTime = next!=null ? next.getStartTime() : av.getEndTime();
 			
 			while (time.isBefore(slotEndTime)) {
-				WiAvailabilitySlot newslot = new WiAvailabilitySlot(this, slotIndex, slot.getCapacity());
+				WiAvailabilitySlot newslot = new WiAvailabilitySlot(this, slotIndex++, slot.getCapacity());
 				this.slots.add(newslot);
 				time = time.plusMinutes(15);
 			}
