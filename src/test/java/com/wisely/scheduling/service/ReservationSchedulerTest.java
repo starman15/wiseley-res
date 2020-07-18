@@ -57,7 +57,7 @@ public class ReservationSchedulerTest  {
 				.addSlot(new WiApiAvailabilitySlot(startTime.plusHours(2), 2)); // 2pm till 3
 			
 			
-			reservationScheduler.setAvailability(restaurant, availability);
+			reservationScheduler.setAvailability(availability);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -6,30 +6,30 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.InitializingBean;
 
 import com.wisely.bean.ApplicationContextProvider;
-import com.wisely.rest.payload.WiAvailabilityRequest;
+import com.wisely.scheduling.model.WiApiAvailability;
 import com.wisely.scheduling.service.ReservationScheduler;
 import com.wisely.util.WiException;
 
 @Path("reservation")
-public class ReservationApi extends AbstractApi implements InitializingBean {
+public class ReservationApi extends AbstractApi {
 	
 	static Logger logger = Logger.getLogger(ReservationApi.class);
 	
 	private ReservationScheduler reservationScheduler;
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		reservationScheduler = ApplicationContextProvider.singleton.getApplicationContext().getBean(ReservationScheduler.class);
-		
-	}
-
 	@Path("availabilities")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void setAvailability(WiAvailabilityRequest availability) throws WiException {
-		reservationScheduler.setAvailability(availability.restaurant, availability.availability);
+	public void setAvailability(WiApiAvailability availability) throws WiException {
+		getScheduler().setAvailability(availability);
+	}
+	
+	private ReservationScheduler getScheduler() {
+		if (this.reservationScheduler==null) {
+			reservationScheduler = ApplicationContextProvider.singleton.getApplicationContext().getBean(ReservationScheduler.class);
+		}
+		return reservationScheduler;
 	}
 }

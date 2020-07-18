@@ -16,6 +16,9 @@ public class WiApiAvailabilitySlot {
 	
 	private int capacity;
 	
+	public WiApiAvailabilitySlot() {
+	}
+	
 	public WiApiAvailabilitySlot(ZonedDateTime st, int capacity) {
 		this.startTime = st;
 		this.capacity = capacity;

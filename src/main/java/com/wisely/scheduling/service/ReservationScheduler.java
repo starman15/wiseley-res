@@ -37,7 +37,7 @@ public class ReservationScheduler {
 	 * @param availability
 	 * @throws WiException 
 	 */
-	public void setAvailability(WiRestaurant restaurant, WiApiAvailability availability) throws WiException {
+	public void setAvailability(WiApiAvailability availability) throws WiException {
 		
 		// convert to internally used structure
 		WiAvailability a = new WiAvailability(availability);

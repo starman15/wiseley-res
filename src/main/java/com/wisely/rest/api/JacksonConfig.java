@@ -1,11 +1,15 @@
 package com.wisely.rest.api;
 
+import java.sql.Time;
+
 import javax.ws.rs.ext.ContextResolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.wisely.json.TimeDeserializer;
+
 
 
 public class JacksonConfig implements ContextResolver<ObjectMapper> {
@@ -18,10 +22,8 @@ public class JacksonConfig implements ContextResolver<ObjectMapper> {
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         
         SimpleModule module = new SimpleModule();
+        module.addDeserializer(Time.class, new TimeDeserializer());
         objectMapper.registerModule(module);
-        
-        //        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
     @Override
