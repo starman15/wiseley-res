@@ -38,7 +38,7 @@ export class ReservationComponent implements OnInit {
 		this.editForm = this.fb.group({
 			'name' : '',
 			'email': '',
-			'partySize': [ 1, Validators.pattern('[0-9]*')],
+			'partySize': [ null, Validators.pattern('[0-9]*')],
 			'date': null,
 			'time': null
 		});
@@ -49,13 +49,28 @@ export class ReservationComponent implements OnInit {
 		return s;
 	}
 	
+	get isFormValid(): boolean {
+		return this.editForm 
+			&& this.editForm.valid
+			 && this.editForm.controls['partySize'].value
+			 && this.editForm.controls['date'].value
+			 && this.editForm.controls['time'].value;
+	}
 	
-	// Choose city using select dropdown
+	
 	onChangePartySize(e) {
 		console.log(e.target.value);
 		this.editForm.controls['partySize'].setValue(e.target.value);
 	}	
 	
+	onChangeTime(e) {
+		console.log(e.target.value);
+		this.editForm.controls['time'].setValue(e.target.value);
+	}	
+	
+	makeReservation() {
+		
+	}	
 
 	onDateSelect(date: NgbDate) {
 		let mdate = moment().year(date.year).month(date.month-1).date(date.day);
