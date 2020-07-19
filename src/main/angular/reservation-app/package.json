@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "dev-build":       "ng build --base-href /wisely/ --watch",
+    "copy-tomcat": "rimraf ../../webapp/*.js ../../../webapp/*.map ../../webapp/*.html  && cpx dist/reservation-app/* ../../webapp -v --watch",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

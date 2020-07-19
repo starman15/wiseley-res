@@ -5,7 +5,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 import { ReservationComponent } from './reservation/reservation.component';
+import { ReservationService } from './reservation/reservation.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { ReservationComponent } from './reservation/reservation.component';
     ReactiveFormsModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+	  ReservationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

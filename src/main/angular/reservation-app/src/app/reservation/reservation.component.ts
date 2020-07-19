@@ -3,6 +3,9 @@ import { NgForm, FormGroup, FormControl, FormBuilder, Validators, ValidatorFn } 
 import { NgbDate, NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 
+import { ReservationService } from './reservation.service';
+
+
 @Component({
 	selector: 'app-reservation',
 	templateUrl: './reservation.component.html',
@@ -25,7 +28,8 @@ export class ReservationComponent implements OnInit {
 		new Date("2020-07-20T14:45:00-04:00")
 	];
 
-	constructor(private fb: FormBuilder) {
+	constructor(private fb: FormBuilder,
+			private reservationService: ReservationService) {
 
 	}
 
