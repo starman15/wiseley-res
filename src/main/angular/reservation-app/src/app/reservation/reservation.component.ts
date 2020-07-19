@@ -17,15 +17,15 @@ export class ReservationComponent implements OnInit {
 
 	partySizes: number[] = [ 1, 2, 3, 4, 5, 6, 7, 8,  9, 10 ];
 
-	mockTimes: Date[] = [
-		new Date("2020-07-20T12:00:00-04:00"),
-		new Date("2020-07-20T12:15:00-04:00"),
-		new Date("2020-07-20T12:30:00-04:00"),
-		new Date("2020-07-20T12:45:00-04:00"),
-		new Date("2020-07-20T14:00:00-04:00"),
-		new Date("2020-07-20T14:15:00-04:00"),
-		new Date("2020-07-20T14:30:00-04:00"),
-		new Date("2020-07-20T14:45:00-04:00")
+	times: Date[] = [
+//		new Date("2020-07-20T12:00:00-04:00"),
+//		new Date("2020-07-20T12:15:00-04:00"),
+//		new Date("2020-07-20T12:30:00-04:00"),
+//		new Date("2020-07-20T12:45:00-04:00"),
+//		new Date("2020-07-20T14:00:00-04:00"),
+//		new Date("2020-07-20T14:15:00-04:00"),
+//		new Date("2020-07-20T14:30:00-04:00"),
+//		new Date("2020-07-20T14:45:00-04:00")
 	];
 
 	constructor(private fb: FormBuilder,
@@ -79,6 +79,9 @@ export class ReservationComponent implements OnInit {
 	onDateSelect(date: NgbDate) {
 		let mdate = moment().year(date.year).month(date.month-1).date(date.day);
 		this.editForm.controls['date'].setValue(mdate.toDate());
+		
+		this.reservationService.getAvailability(mdate.toDate())
+			.subscribe(times => this.times = times);
 	}
 	
 	get isDateSelected(): boolean {

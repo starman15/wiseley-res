@@ -45,12 +45,12 @@
 				</div>
 			</div>
 			<div class="col-sm">
-				<div *ngIf="isDateSelected" class="form-group mt-2">
+				<div *ngIf="isDateSelected" class="form-group mt-3">
 					<div class="container">
 						<div class="row">
 							<select class="browser-default custom-select" (change)="onChangeTime($event)" >
 							   <option value="" disabled>Select reservation time</option>
-							   <option *ngFor="let time of mockTimes" [ngValue]="time">{{ formatTime(time) }}</option>
+							   <option *ngFor="let time of times" [ngValue]="time">{{ formatTime(time) }}</option>
 							</select>			
 						</div>
 					</div>
