@@ -14,6 +14,17 @@ export class ReservationComponent implements OnInit {
 
 	partySizes: number[] = [ 1, 2, 3, 4, 5, 6, 7, 8,  9, 10 ];
 
+	mockTimes: Date[] = [
+		new Date("2020-07-20T12:00:00-04:00"),
+		new Date("2020-07-20T12:15:00-04:00"),
+		new Date("2020-07-20T12:30:00-04:00"),
+		new Date("2020-07-20T12:45:00-04:00"),
+		new Date("2020-07-20T14:00:00-04:00"),
+		new Date("2020-07-20T14:15:00-04:00"),
+		new Date("2020-07-20T14:30:00-04:00"),
+		new Date("2020-07-20T14:45:00-04:00")
+	];
+
 	constructor(private fb: FormBuilder) {
 
 	}
@@ -33,6 +44,11 @@ export class ReservationComponent implements OnInit {
 		});
 	}
 	
+	formatTime(dt: Date) {
+		let s =  moment(dt).format('h:mmA');
+		return s;
+	}
+	
 	
 	// Choose city using select dropdown
 	onChangePartySize(e) {
@@ -44,6 +60,11 @@ export class ReservationComponent implements OnInit {
 	onDateSelect(date: NgbDate) {
 		let mdate = moment().year(date.year).month(date.month-1).date(date.day);
 		this.editForm.controls['date'].setValue(mdate.toDate());
+	}
+	
+	get isDateSelected(): boolean {
+		let date = this.editForm.controls['date'].value;
+		return (date) ? true : false;
 	}
 	
 }

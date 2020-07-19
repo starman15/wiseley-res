@@ -1,38 +1,62 @@
 <div class="container">
-	<div class="row">
-		<form  #newForm="ngForm">
-			<div class="form-group mt-2">
-				<label for="name">Name</label>
-				<input required appNoSpaces type="text" class="form-control" name="name"
-					aria-describedby="name" placeholder="Enter your name" [formControl]="editForm.controls['name']">
+	<form  #newForm="ngForm">
+		<div class="row">
+			<div class="col">
+				<div class="form-group mt-2">
+					<label for="name">Name</label>
+					<input required appNoSpaces type="text" class="form-control" name="name"
+						aria-describedby="name" placeholder="Enter your name" [formControl]="editForm.controls['name']">
+				</div>
+			
 			</div>
-			<div class="form-group mt-2">
-				<label for="email">Email</label>
-				<input required appNoSpaces type="text" class="form-control" name="email"
-					aria-describedby="name" placeholder="Enter your email" [formControl]="editForm.controls['email']">
+			<div class="col-sm">
+				<div class="form-group mt-2">
+					<label for="email">Email</label>
+					<input required appNoSpaces type="text" class="form-control" name="email"
+						aria-describedby="name" placeholder="Enter your email" [formControl]="editForm.controls['email']">
+				</div>
 			</div>
-			<div class="form-group mt-2">
-				<div class="container">
-					<div class="row">
-						<label for="name">Party Size</label>
-					</div>
-					<div class="row">
-						<select class="browser-default custom-select" (change)="onChangePartySize($event)" >
-						   <option value="" disabled>Size of party</option>
-						   <option *ngFor="let num of partySizes" [ngValue]="num">{{num}}</option>
-						</select>			
+		</div>
+		<div class="row">
+			<div class="col">
+				<div class="form-group mt-2">
+					<div class="container">
+						<div class="row">
+							<label for="name">Party Size</label>
+						</div>
+						<div class="row">
+							<select class="browser-default custom-select" (change)="onChangePartySize($event)" >
+							   <option value="" disabled>Size of party</option>
+							   <option *ngFor="let num of partySizes" [ngValue]="num">{{num}}</option>
+							</select>			
+						</div>
 					</div>
 				</div>
-				
 			</div>
-			<div class="form-group mt-2">
-				<label for="name">Select date of reservation</label>
-				<div id="selectDateGroup"  class="form-group">
-					<ngb-datepicker #dp (navigate)="date = $event.next" 
-								 (select)="onDateSelect($event)" [dayTemplate]="t"></ngb-datepicker>
-				</div>			
+		</div>
+		<div class="row">
+			<div class="col">
+				<div class="form-group mt-2">
+					<label for="name">Select date of reservation</label>
+					<div id="selectDateGroup"  class="form-group">
+						<ngb-datepicker #dp (navigate)="date = $event.next" 
+									 (select)="onDateSelect($event)" [dayTemplate]="t"></ngb-datepicker>
+					</div>			
+				</div>
 			</div>
+			<div class="col-sm">
+				<div *ngIf="isDateSelected" class="form-group mt-2">
+					<div class="container">
+						<div class="row">
+							<select class="browser-default custom-select" (change)="onChangeTime($event)" >
+							   <option value="" disabled>Select reservation time</option>
+							   <option *ngFor="let time of mockTimes" [ngValue]="time">{{ formatTime(time) }}</option>
+							</select>			
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-		</form>
-	</div>
+	</form>
 </div>
