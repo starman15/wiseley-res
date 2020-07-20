@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { throwError as observableThrowError,  Observable ,  Observer ,  Subject ,  of ,  interval } from 'rxjs';
 
-import { Restaurant } from './reservation-model';
+import { Restaurant, Diner } from './reservation-model';
 
 @Injectable({
 	providedIn: 'root'
@@ -23,5 +23,19 @@ export class ReservationService {
 		
 		return this.http.get<Date[]>(url);
 	}
+	
+	makeReservation(d: Diner, dateTime: Date, partySize: number): Observable<Object> {
+		let url = `${this.baseUrl}/reservations`;
+		const requestPayload = { 
+				restaurant: this.restaurant, 
+				diner: d, 
+				dateTime: dateTime,
+				partySize: partySize
+		};
+
+		return this.http.post(url, requestPayload);
+	}
+
+	
 	
 }

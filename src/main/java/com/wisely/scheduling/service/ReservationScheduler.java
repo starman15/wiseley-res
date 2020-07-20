@@ -72,7 +72,7 @@ public class ReservationScheduler {
 		LocalTime lt = LocalTime.of(availability.getStartHour(), availability.getStartMinute());
 		
 		ZoneId restTz = ZoneId.of(availability.getRestaurant().getTz());
-		ZonedDateTime time = ZonedDateTime.of(date, lt, ZoneId.of("UTC")).withZoneSameInstant(restTz);
+		ZonedDateTime time = ZonedDateTime.of(date, lt, restTz);
 		
 		
 		// find out what the usage is currently
@@ -86,7 +86,7 @@ public class ReservationScheduler {
 			if (slot.getCapacity() > usedCapacity.get(slot.getIndex())) {
 				// there is room for another reservation
 				int addMinutes = slot.getIndex()*15;
-				ZonedDateTime resTime = time.plusMinutes(addMinutes);
+				ZonedDateTime resTime = time.plusMinutes(addMinutes).withZoneSameInstant(restTz);
 				daysAvailabilty.add(resTime);
 			}
 		}

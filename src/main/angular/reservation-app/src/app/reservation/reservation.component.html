@@ -1,5 +1,5 @@
 <div class="container">
-	<form  #newForm="ngForm">
+	<form *ngIf="!done else doneTemplate" #newForm="ngForm">
 		<div class="row">
 			<div class="col">
 				<div class="form-group mt-2">
@@ -48,9 +48,9 @@
 				<div *ngIf="isDateSelected" class="form-group mt-3">
 					<div class="container">
 						<div class="row">
-							<select class="browser-default custom-select" (change)="onChangeTime($event)" >
+							<select #mySelect class="browser-default custom-select" (change)="onChangeTime(mySelect.value)" >
 							   <option value="" disabled>Select reservation time</option>
-							   <option *ngFor="let time of times" [ngValue]="time">{{ formatTime(time) }}</option>
+							   <option *ngFor="let time of times" [value]="time" [ngValue]="time">{{ formatTime(time) }}</option>
 							</select>			
 						</div>
 					</div>
@@ -67,4 +67,9 @@
 		</div>
 
 	</form>
+	<ng-template #doneTemplate  >
+		<div class="row">
+			<h2>Thank you!  See you soon!</h2>
+		</div>
+	</ng-template>
 </div>

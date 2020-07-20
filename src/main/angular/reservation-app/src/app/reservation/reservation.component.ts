@@ -4,6 +4,7 @@ import { NgbDate, NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 
 import { ReservationService } from './reservation.service';
+import { Diner } from './reservation-model';
 
 
 @Component({
@@ -16,6 +17,8 @@ export class ReservationComponent implements OnInit {
 	editForm: FormGroup;
 
 	partySizes: number[] = [ 1, 2, 3, 4, 5, 6, 7, 8,  9, 10 ];
+
+	done: boolean;
 
 	times: Date[] = [
 //		new Date("2020-07-20T12:00:00-04:00"),
@@ -30,7 +33,7 @@ export class ReservationComponent implements OnInit {
 
 	constructor(private fb: FormBuilder,
 			private reservationService: ReservationService) {
-
+		this.done = false;
 	}
 
 	ngOnInit() {
@@ -68,12 +71,17 @@ export class ReservationComponent implements OnInit {
 	}	
 	
 	onChangeTime(e) {
-		console.log(e.target.value);
-		this.editForm.controls['time'].setValue(e.target.value);
+		console.log(e);
+		this.editForm.controls['time'].setValue(e);
 	}	
 	
 	makeReservation() {
+		const diner = new Diner(this.editForm.controls['name'].value, this.editForm.controls['email'].value);
+		const dateTime = this.editForm.controls['time'].value;
+		const partySize = this.editForm.controls['partySize'].value;
 		
+		this.reservationService.makeReservation(diner, dateTime, partySize)
+			.subscribe(() => this.done = true);
 	}	
 
 	onDateSelect(date: NgbDate) {
