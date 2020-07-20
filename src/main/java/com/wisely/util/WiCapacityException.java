@@ -7,6 +7,7 @@ public class WiCapacityException extends WiException {
 	}
 
 	public WiCapacityException() {
+		super("Over capacity at this time");
 	}
 
 }

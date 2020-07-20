@@ -111,10 +111,15 @@ public class ReservationScheduler {
 		
 		WiAvailability availability = availabilityDao.getAvailability(restaurant);
 		
+		// browsers don't send TZ so add it
 		int slotIndex = availability.findSlotIndex(dateTime);
 
 		// find out what the usage is currently
-		LocalDate dt = LocalDate.of(dateTime.getYear(), dateTime.getMonth(), dateTime.getMinute());
+		
+		// before changing to localdate, make sure time is in restaurant's timezone
+		ZonedDateTime rsDateTime = dateTime.withZoneSameInstant(ZoneId.of(availability.getRestaurant().getTz()));
+		
+		LocalDate dt = LocalDate.of(rsDateTime.getYear(), rsDateTime.getMonth(), rsDateTime.getDayOfMonth());
 		List<Integer> usedCapacity = reservationDao.getUsedCapacity(restaurant, dt, availability.getSlots().size());
 		
 		if (usedCapacity.get(slotIndex) < availability.getSlots().get(slotIndex).getCapacity()) {

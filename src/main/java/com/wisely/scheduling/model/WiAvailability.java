@@ -29,9 +29,12 @@ public class WiAvailability {
 	
 	public WiAvailability(WiApiAvailability av) throws WiException {
 		this.restaurant = av.getRestaurant();
+		
+		// make sure time is in the restaurant's timezone before getting start time
+		ZonedDateTime startTime = av.getStartTime().withZoneSameInstant(ZoneId.of(av.getRestaurant().getTz()));
 
-		this.startHour = av.getStartTime().getHour();
-		this.startMinute = av.getStartTime().getMinute();
+		this.startHour = startTime.getHour();
+		this.startMinute = startTime.getMinute();
 		
 		this.slots = new ArrayList<WiAvailabilitySlot>();
 		

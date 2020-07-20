@@ -33,16 +33,24 @@ public class ReservationApi extends AbstractApi {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void setAvailability(WiApiAvailability availability) throws WiException {
-		getScheduler().setAvailability(availability);
+		try {
+			getScheduler().setAvailability(availability);
+		} catch (Exception e) {
+			throw handleError(e);
+		}
 	}
 	
 	@Path("availabilities/{restaurant}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public WiAvailability getAvailability(@PathParam("restaurant") String restname) throws WiException {
-		WiRestaurant r = new WiRestaurant();
-		r.setName(restname);
-		return getScheduler().getAvailability(r);
+		try {
+			WiRestaurant r = new WiRestaurant();
+			r.setName(restname);
+			return getScheduler().getAvailability(r);
+		} catch (Exception e) {
+			throw handleError(e);
+		}
 	}
 	
 	/**
@@ -59,12 +67,16 @@ public class ReservationApi extends AbstractApi {
 												@PathParam("year") int year,
 												@PathParam("month") int month,
 												@PathParam("day") int day) throws WiException {
-		WiRestaurant r = new WiRestaurant();
-		r.setName(restname);
-		
-		LocalDate date = LocalDate.of(year, month, day);
-		
-		return getScheduler().getAvailability(r, date);
+		try {
+			WiRestaurant r = new WiRestaurant();
+			r.setName(restname);
+
+			LocalDate date = LocalDate.of(year, month, day);
+
+			return getScheduler().getAvailability(r, date);
+		} catch (Exception e) {
+			throw handleError(e);
+		}
 	}
 	
 	@Path("reservations")
@@ -72,7 +84,11 @@ public class ReservationApi extends AbstractApi {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public void makeReservation(WiMakeReservationRequest req) throws WiException {
-		getScheduler().makeReservation(req.restaurant, req.dateTime, req.diner, req.partySize);
+		try {
+			getScheduler().makeReservation(req.restaurant, req.dateTime, req.diner, req.partySize);
+		} catch (Exception e) {
+			throw handleError(e);
+		}
 	}
 	
 	

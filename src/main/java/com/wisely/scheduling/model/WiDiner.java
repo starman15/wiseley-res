@@ -4,6 +4,8 @@ public class WiDiner {
 	private String name;
 	private String email;
 	
+	public WiDiner() {
+	}
 	public WiDiner(String n, String e) {
 		this.name = n;
 		this.email = e;
