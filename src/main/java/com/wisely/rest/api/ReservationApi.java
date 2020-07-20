@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import org.apache.log4j.Logger;
 
 import com.wisely.bean.ApplicationContextProvider;
+import com.wisely.json.payload.WiInventoryResponse;
 import com.wisely.json.payload.WiMakeReservationRequest;
 import com.wisely.scheduling.model.WiApiAvailability;
 import com.wisely.scheduling.model.WiAvailability;
@@ -74,6 +75,38 @@ public class ReservationApi extends AbstractApi {
 			LocalDate date = LocalDate.of(year, month, day);
 
 			return getScheduler().getAvailability(r, date);
+		} catch (Exception e) {
+			throw handleError(e);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param restname
+	 * @param dateString MM:DD
+	 * @return
+	 * @throws WiException
+	 */
+	@Path("inventory/{restaurant}/{year}/{month}/{day}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public WiInventoryResponse getInventory(@PathParam("restaurant") String restname, 
+												@PathParam("year") int year,
+												@PathParam("month") int month,
+												@PathParam("day") int day) throws WiException {
+		try {
+			WiRestaurant r = new WiRestaurant();
+			r.setName(restname);
+
+			LocalDate date = LocalDate.of(year, month, day);
+
+			int count = getScheduler().getInventory(r, date);
+			
+			WiInventoryResponse resp = new WiInventoryResponse();
+			resp.date = date;
+			resp.inventory = count;
+			
+			return resp;
 		} catch (Exception e) {
 			throw handleError(e);
 		}

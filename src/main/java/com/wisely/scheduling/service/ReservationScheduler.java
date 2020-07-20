@@ -100,6 +100,38 @@ public class ReservationScheduler {
 	}
 	
 	/**
+	 * Returns availability count for a date.
+	 * 
+	 * @param r
+	 * @param date
+	 * @return
+	 * @throws WiException 
+	 */
+	public int getInventory(WiRestaurant restaurant, LocalDate date) throws WiException {
+		WiAvailability availability = availabilityDao.getAvailability(restaurant);
+		
+		// translate start time into zoned datetime for given date
+		LocalTime lt = LocalTime.of(availability.getStartHour(), availability.getStartMinute());
+		
+		ZoneId restTz = ZoneId.of(availability.getRestaurant().getTz());
+		ZonedDateTime time = ZonedDateTime.of(date, lt, restTz);
+		
+		
+		// find out what the usage is currently
+		int availableCapacity = 0;
+		for (WiAvailabilitySlot s: availability.getSlots())
+			availableCapacity = availableCapacity + s.getCapacity();
+		
+		List<Integer> usedCapacity = reservationDao.getUsedCapacity(restaurant, date, availability.getSlots().size());
+		int used = 0;
+		for (Integer u: usedCapacity) {
+			used = used + u;
+		}
+		
+		return availableCapacity - used;	
+	}
+	
+	/**
 	 *
 	 * @param restaurant
 	 * @param dateTime assumed to be one of the time values returned from getAvailability
