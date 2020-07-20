@@ -19,6 +19,7 @@ export class ReservationComponent implements OnInit {
 	partySizes: number[] = [ 1, 2, 3, 4, 5, 6, 7, 8,  9, 10 ];
 
 	done: boolean;
+	taken: boolean;
 
 	times: Date[] = [
 //		new Date("2020-07-20T12:00:00-04:00"),
@@ -34,6 +35,7 @@ export class ReservationComponent implements OnInit {
 	constructor(private fb: FormBuilder,
 			private reservationService: ReservationService) {
 		this.done = false;
+		this.taken = false;
 	}
 
 	ngOnInit() {
@@ -80,8 +82,15 @@ export class ReservationComponent implements OnInit {
 		const dateTime = this.editForm.controls['time'].value;
 		const partySize = this.editForm.controls['partySize'].value;
 		
+		this.taken = false;
 		this.reservationService.makeReservation(diner, dateTime, partySize)
-			.subscribe(() => this.done = true);
+			.subscribe(() => this.done = true,
+					error => {
+						this.taken = true;
+						let date = this.editForm.controls['date'].value;
+						this.reservationService.getAvailability(date)
+							.subscribe(times => this.times = times);
+					});
 	}	
 
 	onDateSelect(date: NgbDate) {

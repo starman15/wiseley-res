@@ -45,6 +45,9 @@
 				</div>
 			</div>
 			<div class="col-sm">
+				<div *ngIf="taken">
+					<p>Please select another time.</p>
+				</div>
 				<div *ngIf="isDateSelected" class="form-group mt-3">
 					<div class="container">
 						<div class="row">
